@@ -187,8 +187,26 @@
 
 
 
+
         @yield('content')
     </div>
 </body>
+<script>
+    @if(session('success'))
+    alert("Success: {{ session('success') }}");
+    @endif
+
+    @if(session('error'))
+    alert("Error: {{ session('error') }}");
+    @endif
+
+    @if(session('info'))
+    alert("Info: {{ session('info') }}");
+    @endif
+
+    @if(session('warning'))
+    alert("Warning: {{ session('warning') }}");
+    @endif
+</script>
 
 </html>
