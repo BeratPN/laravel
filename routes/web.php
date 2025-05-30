@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ArticleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,4 +22,10 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // /list-articles page
+    // Users who have the 'list-articles' permission can access this. (Both user and writer roles can list articles.)
+    Route::get('/list-articles', [ArticleController::class, 'index'])
+        ->name('articles.index')
+        ->middleware('permission:list-articles');
 });

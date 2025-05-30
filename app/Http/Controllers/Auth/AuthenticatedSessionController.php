@@ -24,20 +24,23 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // validate email and password
         $request->validate([
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ]);
-
+        // check if email and password are correct
         if (! Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
         }
-
+        // kill guest session and create new user session
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard')); // redirect to dashboard
+
+        // Redirects the user to the page they were visiting before logging in or  redirect to dashboard
+        return redirect()->intended(route('dashboard'));
     }
 
     /**
@@ -45,10 +48,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // kill user session
         Auth::guard('web')->logout();
 
+        // invalidate all session information
         $request->session()->invalidate();
 
+        // regenerate csrf token to prevent csrf attacks
         $request->session()->regenerateToken();
 
         return redirect('/'); // redirect to home

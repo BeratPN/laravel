@@ -174,7 +174,7 @@
                     @csrf
                     <button type="submit">Çıkış Yap</button>
                 </form>
-                <a href="{{ route('dashboard') }}">Panelim</a>
+                <a href="{{ route('articles.index') }}">Makaleler</a>
                 @endguest
             </li>
         </ul>
