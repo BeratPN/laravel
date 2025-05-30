@@ -163,24 +163,30 @@
 <body>
     <nav>
         <ul>
-            <li><a href="{{ url('/') }}">Ana Sayfa</a></li>
+            <li><a href="{{ url('/') }}">Home Page</a></li>
             <li class="auth-links">
                 @guest
-                <a href="{{ route('login') }}">Giriş Yap</a>
-                <a href="{{ route('register') }}">Kayıt Ol</a>
+                <a href="{{ route('login') }}">Login</a>
+                <a href="{{ route('register') }}">Register</a>
                 @else
-                <span>Merhaba, {{ Auth::user()->name }}</span>
+                <div style="display:flex; flex-direction:column ;align-items:center; ">
+                    <span>Welcome, <b>{{ Auth::user()->name }} </b></span>
+                    <span>Role: {{ Auth::user()->getRoleNames()->implode(', ') }} </span>
+                </div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit">Çıkış Yap</button>
+                    <button type="submit">Logout</button>
                 </form>
-                <a href="{{ route('articles.index') }}">Makaleler</a>
+                <a href="{{ route('articles.index') }}">Articles</a>
                 @endguest
             </li>
         </ul>
     </nav>
 
     <div class="container">
+
+
+
         @yield('content')
     </div>
 </body>

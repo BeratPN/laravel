@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\UserProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,5 +28,15 @@ Route::middleware('auth')->group(function () {
     // Users who have the 'list-articles' permission can access this. (Both user and writer roles can list articles.)
     Route::get('/list-articles', [ArticleController::class, 'index'])
         ->name('articles.index')
+        ->middleware('permission:list-articles');
+
+    // become a writer
+    Route::post('/request-writer-role', [UserProfileController::class, 'requestWriterRole'])
+        ->name('user.requestWriterRole')
+        ->middleware('permission:list-articles');
+
+    // become a user
+    Route::post('/request-user-role', [UserProfileController::class, 'requestUserRole'])
+        ->name('user.requestUserRole')
         ->middleware('permission:list-articles');
 });
